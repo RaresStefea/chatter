@@ -1,0 +1,29 @@
+.right-side-area {
+  flex: 1 1 70%;
+  max-width: 70%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sent-messages-wrapper {
+  flex: 1 1 auto;     
+  overflow: auto;     
+  padding: 1rem;       
+}
+
+.message-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .75rem;
+  border-top: 1px solid rgba(0,0,0,0.08); /* just visual separator */
+
+}
+
+@media (max-width: 768px) {
+  .right-side-area {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}

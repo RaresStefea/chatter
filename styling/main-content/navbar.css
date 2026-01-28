@@ -1,0 +1,67 @@
+.convo-information {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 1rem;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.hamburger-mobile {
+  display: none;
+}
+
+.person-info-wrapper {
+  display: flex;              
+  align-items: center;      
+  gap: 1rem;               
+  min-width: 0;              
+}
+
+.person-info-wrapper img {
+  width: 3rem;             
+  height: 3rem;
+  display: block;          
+  border-radius: 50%;
+}
+
+.person-name h2 {
+  margin: 0;
+  font-size: 2.5rem;      
+  line-height: 1.1;           
+  font-weight: 700;
+}
+
+.hamburger-mobile .sidebar-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;             
+  height: 3rem;
+  padding: 0;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 1.25rem;         
+}
+
+.hamburger-mobile .sidebar-toggle:hover {
+  background: #f7f7f7;
+}
+
+
+@media (max-width: 750px) {
+  .hamburger-mobile {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .convo-information {
+    justify-content: flex-start; 
+    gap: .75rem;
+    padding: .6rem .75rem;
+  }
+
+}
