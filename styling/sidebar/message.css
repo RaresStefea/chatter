@@ -4,7 +4,7 @@
   margin: 0.5rem;
 }
 
-.messages-section > .message-wrapper {
+.message-item {
   display: flex;
   align-items: center;
   flex-wrap: wrap;

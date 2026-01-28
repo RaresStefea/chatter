@@ -3,7 +3,6 @@
   align-items: center;
   gap: clamp(0.4rem, 1vw, 0.75rem);
   padding: clamp(0.5rem, 2vw, 1rem);
-  border: 1px solid black;
   flex-wrap: wrap;
 }
 

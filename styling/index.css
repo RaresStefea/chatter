@@ -15,3 +15,6 @@
 @import url(./main-content/navbar.css);
 @import url(./main-content/sent-messages.css);
 @import url(./main-content/input.css);
+
+/* Accesibility */
+@import url(a11y.css);
