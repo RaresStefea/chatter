@@ -1,7 +1,25 @@
-.app-title{
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    border: 1px solid black;
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.4rem, 1vw, 0.75rem);
+  padding: clamp(0.5rem, 2vw, 1rem);
+  border: 1px solid black;
+  flex-wrap: wrap;
+}
+
+.app-title h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  font-weight: 800;
+  color: #333;
+  line-height: 1.1;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.app-logo {
+  width: clamp(2rem, 6vw, 3.5rem);
+  height: clamp(2rem, 6vw, 3.5rem);
+  object-fit: contain; 
+  flex: 0 0 auto;
 }
