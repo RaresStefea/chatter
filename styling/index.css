@@ -1,2 +1,5 @@
 @import url(fonts.css);
 @import url(root.css);
+@import url(./sidebar/aside.css);
+@import url(./main-content/main.css);
+@import url(./main-content/navbar.css);

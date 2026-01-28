@@ -1,0 +1,15 @@
+.hamburger-mobile,
+.left-side-area .sidebar-toggle {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .hamburger-mobile {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .left-side-area .sidebar-toggle {
+    display: none;
+  }
+}
