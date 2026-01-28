@@ -10,6 +10,7 @@
 - ~~build frontend MVP~~
 - de adaugat sunete
 - de facut fully responsive
+- de adaugat skeleton pentru messaging ap: socketio
 - EVOLVE UI: de facut liquid glass , gradients , box shadows
 
 ## Mockup
