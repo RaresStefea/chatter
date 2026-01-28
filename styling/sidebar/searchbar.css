@@ -16,7 +16,7 @@
   padding: 0.5rem 0.75rem;
   border: 1px solid #ccc;    
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 
@@ -29,4 +29,9 @@
   border-radius: 6px;
   background: white;
   cursor: pointer;
+}
+
+.filter-button-wrapper img{
+  height: 1.25rem;
+  width: 1.25rem;
 }

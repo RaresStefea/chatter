@@ -19,7 +19,7 @@
   min-width: 0;              
 }
 
-.person-talking {
+.person-info-wrapper img {
   width: 3rem;             
   height: 3rem;
   display: block;          
@@ -50,6 +50,7 @@
 .hamburger-mobile .sidebar-toggle:hover {
   background: #f7f7f7;
 }
+
 
 @media (max-width: 750px) {
   .hamburger-mobile {

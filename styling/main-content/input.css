@@ -45,8 +45,17 @@
   box-shadow: 0 0 0 3px rgba(90, 162, 255, 0.15);
 }
 
+.message-bar-wrapper img{
+  width: 2rem;
+  height: 2rem;
+}
+
 @media (max-width: 750px) {
   .message-bar-wrapper {
     padding: .5rem .6rem;
   }
+  .message-bar-wrapper img{
+  width: 1.5rem;
+  height: 1.5rem;
+}
 }
