@@ -1,5 +1,15 @@
+/* Root Layout */
+
 @import url(fonts.css);
 @import url(root.css);
+
+/* Side Layout */
 @import url(./sidebar/aside.css);
+@import url(./sidebar/title.css);
+@import url(./sidebar/searchbar.css);
+@import url(./sidebar/message.css);
+@import url(./sidebar/options.css);
+
+/* Main Layout */
 @import url(./main-content/main.css);
 @import url(./main-content/navbar.css);
