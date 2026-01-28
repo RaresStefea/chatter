@@ -1,0 +1,52 @@
+.message-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+
+  padding: .5rem .75rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.message-bar-wrapper .document-wrapper,
+.message-bar-wrapper .send-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.message-input-wrapper {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.message-input-wrapper input[type="text"] {
+  width: 100%;
+  padding: .55rem .7rem;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 10px;
+  font-size: 1.5rem;
+  outline: none;
+}
+
+.message-bar-wrapper .document-wrapper:hover,
+.message-bar-wrapper .send-wrapper:hover {
+  background: #f7f7f7;
+}
+.message-input-wrapper input[type="text"]:focus {
+  border-color: #5aa2ff;
+  box-shadow: 0 0 0 3px rgba(90, 162, 255, 0.15);
+}
+
+@media (max-width: 750px) {
+  .message-bar-wrapper {
+    padding: .5rem .6rem;
+  }
+}

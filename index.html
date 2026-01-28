@@ -15,11 +15,6 @@
     <section class="app-title">
         
         <h1> CHATTER </h1>
-
-            <button class="sidebar-toggle" aria-label="Open conversations list" aria-expanded="false">
-                ☰
-            </button>
-
     </section>
 
 
@@ -106,9 +101,7 @@
             </div>
             
             <div class="person-info-wrapper">  
-                <button class="person-logo-wrapper">
-                    <img src="./media/icons/person-circle.svg" alt="" aria-hidden="true" width="20" height="20">
-                </button>
+                <img src="./media/icons/person-circle.svg" class="person-talking" alt="" aria-hidden="true">
 
                 <section class="person-name">
                     <h2>Name</h2>
@@ -118,27 +111,35 @@
         </nav>
 
 
+                
         <section class="sent-messages-wrapper">
-           
-            <section class="message-box">
-                <p>Sample Message</p>
-            
+            <!-- left -->
+            <section class="message-box incoming">
+                <p class="message-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. ac, malesuada lacus. In nec lacinia nulla. Sed congue sapien augue, finibus interdum ante semper eu. Sed a est dapibus, malesuada mi sed, pretium est. Sed nec orci id augue fermentum laoreet id sit amet lorem. Duis eu ante porttitor, mollis libero sit amet, fermentum metus.</p>
+                <span class="message-time">10:31</span>
+            </section>
+
+            <!-- right -->
+            <section class="message-box outgoing">
+                <p class="message-text">Lorem ipsum dolor sit amet. </p>
+                <span class="message-time">10:32</span>
             </section>
         </section>
+
         
 
         <section class="message-bar-wrapper">
             
             <button class="document-wrapper">
-                <img src="./media/icons/file-text-fill.svg" alt="" aria-hidden="true" width="20" height="20">
+                <img src="./media/icons/file-text-fill.svg" alt="" aria-hidden="true" width="30" height="30">
             </button>
             
             <section class="message-input-wrapper">
-                <input type="text" placeholder="Write your message">
+                <input type="text" placeholder="Your message...">
             </section>
             
             <button class="send-wrapper">
-             <img src="./media/icons/eye.svg" alt="" aria-hidden="true" width="20" height="20">
+             <img src="./media/icons/send-fill.svg" alt="" aria-hidden="true" width="30" height="30">
             </button>
         
         </section>
