@@ -7,7 +7,8 @@
 ## TODO
 
 - ~~create mockup~~
-- build frontend MVP 
+- ~~build frontend MVP~~
+- de adaugat sunete
 
 ## Mockup
 

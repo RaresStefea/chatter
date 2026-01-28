@@ -73,13 +73,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: clamp(1.75rem, 2.8vw, 2.25rem);
   height: clamp(1.75rem, 2.8vw, 2.25rem);
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 8px;
   background: #fff;
   cursor: pointer;
+}
+
+.hide-wrapper:hover, .delete-wrapper:hover{
+  background: #f7f7f7;
 }
 
 .message-options-wrapper img {
