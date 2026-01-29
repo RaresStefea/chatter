@@ -5,8 +5,8 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon backend/app.js",
-    "start": "node backend/app.js",
+    "dev": "nodemon backend/init.js",
+    "start": "node backend/init.js",
     "test:initial": "node --test backend/tests/initial.socket.test.js"
   },
   "keywords": [],
