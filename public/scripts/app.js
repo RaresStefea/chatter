@@ -8,12 +8,17 @@ export function startChatApp() {
   const socket = createSocket(userId);
   const dom = getChatDom();
 
-
+  dom.appTitle.textContent = "CHATTER";
   dom.peerName.textContent = "";
   dom.header.hidden = true;
   dom.list.hidden = true;
   dom.composer.hidden = true;
   dom.list.innerHTML = "";
+
+   socket.once("connect", () => {
+    dom.appTitle.textContent = userId;
+  });
+
 
   const conversations = new Map();  
   const connectedPeers = new Set();  

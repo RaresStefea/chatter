@@ -3,6 +3,8 @@ export function getChatDom() {
   const input = document.querySelector(".message-input-wrapper input");
   const sendBtn = document.querySelector(".send-wrapper");
 
+const appTitle = document.querySelector("#app-title-text");
+
   const conversationsList = document.querySelector(".message-wrapper");
   const addUserBtn = document.querySelector(".add-wrapper");
 
@@ -14,5 +16,5 @@ export function getChatDom() {
   if (!conversationsList || !addUserBtn) throw new Error("Left panel DOM elements not found.");
   if (!header || !peerName || !composer) throw new Error("Right panel DOM elements not found.");
 
-  return { list, input, sendBtn, conversationsList, addUserBtn, header, peerName, composer };
+  return { list, input, sendBtn, conversationsList, addUserBtn, header, peerName, composer, appTitle };
 }
