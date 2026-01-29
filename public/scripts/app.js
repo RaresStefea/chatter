@@ -8,6 +8,19 @@ export function startChatApp() {
   const socket = createSocket(userId);
   const dom = getChatDom();
 
+  const mqMobile = window.matchMedia("(max-width: 768px)");
+
+  function setMobileView(view) {
+    document.body.classList.toggle("mobile-sidebar", view === "sidebar");
+    document.body.classList.toggle("mobile-chat", view === "chat");
+
+    if (dom.sidebarToggle) {
+      dom.sidebarToggle.setAttribute("aria-expanded", String(view === "sidebar"));
+    }
+  }
+
+  if (mqMobile.matches) setMobileView("sidebar");
+
   dom.appTitle.textContent = "CHATTER";
   dom.peerName.textContent = "";
   dom.header.hidden = true;
@@ -27,6 +40,17 @@ export function startChatApp() {
   const controller = new AbortController();
   const { signal } = controller;
 
+  if (dom.sidebarToggle) {
+    dom.sidebarToggle.addEventListener(
+      "click",
+      () => {
+        if (!mqMobile.matches) return;
+        setMobileView("sidebar");
+      },
+      { signal }
+    );
+  }
+
   function ensureConversation(peerId) {
     if (!conversations.has(peerId)) {
       conversations.set(peerId, { peerId, name: peerId, messages: [], lastMessage: "" });
@@ -41,6 +65,7 @@ export function startChatApp() {
     dom.list.hidden = true;
     dom.composer.hidden = true;
     clearMessages(dom.list);
+    if (mqMobile.matches) setMobileView("sidebar");
      updateEmptyState();
   }
 
@@ -58,6 +83,9 @@ export function startChatApp() {
 
   clearMessages(dom.list);
   convo.messages.forEach((m) => appendMessage({ list: dom.list, userId }, m));
+  
+  if (mqMobile.matches) setMobileView("chat");
+
   updateEmptyState();
 }
 

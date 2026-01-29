@@ -20,3 +20,15 @@ body.loading #composer {
 html {
   height: 100%;
 }
+
+
+@media (max-width: 768px) {
+
+  body:not(.mobile-chat):not(.mobile-sidebar) .left-side-area {
+    display: flex;
+  }
+
+  body:not(.mobile-chat):not(.mobile-sidebar) .right-side-area {
+    display: none;
+  }
+}

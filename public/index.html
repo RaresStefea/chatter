@@ -70,12 +70,27 @@
         <h2 id="conversation-heading" class="visually-hidden">Current conversation</h2>
 
         <div class="person-info-wrapper">
-        <img src="./media/icons/person-circle.svg" alt="person image" aria-hidden="true" />
-        <section class="person-name">
+
+            <div class="hamburger-mobile">
+            <button
+                class="sidebar-toggle"
+                type="button"
+                aria-label="Open conversations"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+            </div>
+
+            <img src="./media/icons/person-circle.svg" alt="person image" aria-hidden="true" />
+
+            <section class="person-name">
             <h3 id="peerName"></h3>
-        </section>
+            </section>
+
         </div>
-    </header>
+        </header>
 
     <section id="conversations-panel" class="visually-hidden" hidden aria-hidden="true"></section>
 

@@ -12,9 +12,13 @@ const appTitle = document.querySelector("#app-title-text");
   const peerName = document.querySelector(".person-name h3");
   const composer = document.querySelector(".message-bar-wrapper");
 
+
+  const sidebarToggle = document.querySelector(".sidebar-toggle");
+
+
   if (!list || !input || !sendBtn) throw new Error("Message DOM elements not found.");
   if (!conversationsList || !addUserBtn) throw new Error("Left panel DOM elements not found.");
   if (!header || !peerName || !composer) throw new Error("Right panel DOM elements not found.");
 
-  return { list, input, sendBtn, conversationsList, addUserBtn, header, peerName, composer, appTitle };
+  return { list, input, sendBtn, conversationsList, addUserBtn, header, peerName, composer, appTitle, sidebarToggle };
 }

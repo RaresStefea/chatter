@@ -9,7 +9,7 @@
 - ~~create mockup~~
 - ~~build frontend MVP~~
 - de adaugat sunete
-- de facut fully responsive(hamburger menu dispare pe telefon)
+- ~~de facut fully responsive(hamburger menu dispare pe telefon)~~
 - de afisat numele utilizatorului in loc de header
 - ~~de adaugat skeleton pentru messaging ap: socketio~~
 - takeout innerHTML=unsafe
