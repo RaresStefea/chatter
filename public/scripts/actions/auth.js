@@ -1,11 +1,14 @@
-export function getSessionFromPrompts() {
-  const userId = prompt("Your userId (e.g. alice):")?.trim();
-  const peerId = prompt("Send to userId (e.g. bob):")?.trim();
-
-  if (!userId || !peerId) {
-    alert("userId and peerId are required.");
-    throw new Error("Missing userId/peerId");
+export function getUserIdFromPrompt() {
+  const userId = prompt("Your name / userId:")?.trim();
+  if (!userId) {
+    alert("Your name is required.");
+    throw new Error("Missing userId");
   }
+  return { userId };
+}
 
-  return { userId, peerId };
+export function promptForFriendId() {
+  const peerId = prompt("Friend's userId:")?.trim();
+  if (!peerId) return null;
+  return { peerId };
 }

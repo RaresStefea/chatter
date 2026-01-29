@@ -1,26 +1,162 @@
-import { getSessionFromPrompts } from "./actions/auth.js";
+import { getUserIdFromPrompt, promptForFriendId } from "./actions/auth.js";
 import { createSocket, onDirectMessage } from "./actions/socket.js";
 import { getChatDom } from "./effects/dom.js";
-import { appendMessage } from "./effects/render.js";
+import { upsertConversationItem, removeConversationItem, clearMessages, appendMessage} from "./effects/render.js";
 
 export function startChatApp() {
-  const { userId, peerId } = getSessionFromPrompts();
+  const { userId } = getUserIdFromPrompt();
   const socket = createSocket(userId);
   const dom = getChatDom();
 
-  onDirectMessage(socket, (msg) => {
-    const relevant =
-      (msg.from === userId && msg.to === peerId) ||
-      (msg.from === peerId && msg.to === userId);
 
-    if (relevant) appendMessage({ list: dom.list, userId }, msg);
-  });
+  dom.peerName.textContent = "";
+  dom.header.hidden = true;
+  dom.list.hidden = true;
+  dom.composer.hidden = true;
+  dom.list.innerHTML = "";
+
+  const conversations = new Map();  
+  const connectedPeers = new Set();  
+  let activePeerId = null;
+
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  function ensureConversation(peerId) {
+    if (!conversations.has(peerId)) {
+      conversations.set(peerId, { peerId, name: peerId, messages: [], lastMessage: "" });
+    }
+    return conversations.get(peerId);
+  }
+
+  function hideRightSide() {
+    activePeerId = null;
+    dom.peerName.textContent = "";
+    dom.header.hidden = true;
+    dom.list.hidden = true;
+    dom.composer.hidden = true;
+    clearMessages(dom.list);
+     updateEmptyState();
+  }
+
+  function openConversation(peerId) {
+  activePeerId = peerId;
+
+  const convo = ensureConversation(peerId);
+
+  updateEmptyState();
+
+  dom.peerName.textContent = convo.name || peerId;
+  dom.header.hidden = false;
+  dom.list.hidden = false;
+  dom.composer.hidden = false;
+
+  clearMessages(dom.list);
+  convo.messages.forEach((m) => appendMessage({ list: dom.list, userId }, m));
+  updateEmptyState();
+}
+
+function updateEmptyState() {
+  const hasItems = dom.conversationsList.querySelector("[data-peer-id]") !== null;
+  const hasActive = !!activePeerId;
+
+  const shouldShowEmpty = !hasItems || !hasActive;
+
+  document.body.classList.toggle("loading", shouldShowEmpty);
+
+  if (shouldShowEmpty) {
+    dom.header.hidden = true;
+    dom.list.hidden = true;
+    dom.composer.hidden = true;
+  }
+}
+
+  dom.addUserBtn.addEventListener("click", () => {
+    const res = promptForFriendId();
+    if (!res) return;
+
+    ensureConversation(res.peerId);
+
+    socket.emit("connect:request", { peerId: res.peerId }, (ack) => {
+      if (!ack?.ok) console.error("connect:request failed:", ack);
+    });
+  }, { signal });
+
+  dom.conversationsList.addEventListener(
+  "click",
+  (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const item = btn.closest(".message-item");
+    const peerId = item?.dataset.peerId;
+    if (!peerId) return;
+
+    if (btn.classList.contains("hide-wrapper")) {
+      connectedPeers.add(peerId);
+      openConversation(peerId);
+      return;
+    }
+
+    if (btn.classList.contains("delete-wrapper")) {
+      socket.emit("connect:delete", { peerId }, (ack) => {
+        if (!ack?.ok) console.error("connect:delete failed:", ack);
+      });
+    }
+  },
+  { signal }
+);
+
+  const onConfirmed = ({ peerId }) => {
+    connectedPeers.add(peerId);
+    const convo = ensureConversation(peerId);
+
+    upsertConversationItem(dom.conversationsList, {
+      peerId: convo.peerId,
+      name: convo.name,
+      lastMessage: convo.lastMessage
+    });
+    updateEmptyState();
+  };
+
+  const onDeleted = ({ peerId }) => {
+    connectedPeers.delete(peerId);
+    conversations.delete(peerId);
+    removeConversationItem(dom.conversationsList, peerId);
+
+    if (activePeerId === peerId) hideRightSide();
+     updateEmptyState()
+  };
+
+  socket.on("connect:confirmed", onConfirmed);
+  socket.on("connect:deleted", onDeleted);
+
+  const onMsg = (msg) => {
+    const peerId = msg.from === userId ? msg.to : msg.from;
+    if (!connectedPeers.has(peerId)) return;
+
+    const convo = ensureConversation(peerId);
+    convo.messages.push(msg);
+    convo.lastMessage = msg.text;
+
+    upsertConversationItem(dom.conversationsList, {
+      peerId: convo.peerId,
+      name: convo.name,
+      lastMessage: convo.lastMessage
+    });
+
+    if (activePeerId === peerId) {
+      appendMessage({ list: dom.list, userId }, msg);
+    }
+  };
+
+  onDirectMessage(socket, onMsg);
 
   function sendMessage() {
     const text = dom.input.value.trim();
-    if (!text) return;
+    if (!text || !activePeerId) return;
 
-    socket.emit("dm:send", { to: peerId, text }, (ack) => { 
+    socket.emit("dm:send", { to: activePeerId, text }, (ack) => {
       if (!ack?.ok) console.error("Send failed:", ack);
     });
 
@@ -28,8 +164,18 @@ export function startChatApp() {
     dom.input.focus();
   }
 
-  dom.sendBtn.addEventListener("click", sendMessage);
+  dom.sendBtn.addEventListener("click", sendMessage, { signal });
   dom.input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
-  });
+  }, { signal });
+
+  function destroy() {
+    controller.abort();              
+    socket.off("connect:confirmed", onConfirmed);
+    socket.off("connect:deleted", onDeleted);
+    socket.off("dm:receive", onMsg); 
+  }
+
+  return { destroy };
 }
+

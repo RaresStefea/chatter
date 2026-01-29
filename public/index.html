@@ -10,7 +10,7 @@
     <title>Chatter</title>
 </head>
 
-<body>
+<body class="loading">
 
    <aside class="left-side-area" role="navigation" aria-label="Conversations">
    
@@ -43,45 +43,16 @@
         
         <h2 id="conversations-heading" class="visually-hidden">Conversations list</h2>
 
-        <section class="message-wrapper" role="list" aria-label="Conversations">
-            
-            <section class="message-item" role="listitem" aria-label="Conversation with Person. Last message: A sample message.">
-                
-                <section class="person-logo-wrapper" aria-hidden="true">
-                    <img src="./media/icons/person-circle.svg" alt="person image" aria-hidden="true">
-                </section>
-
-                <section class="message-information-wrapper">
-                    
-                    <section class="name-wrapper">
-                        <span class="name">Person</span>
-                    </section>
-
-                    <section class="message-snippet-wrapper">
-                        <span class="message">A sample message.</span>
-                    </section>
-
-                </section>
-
-                <footer class="message-options-wrapper" aria-label="Conversation actions">
-                    
-                    <button class="hide-wrapper" type="button" aria-label="Hide conversation">
-                        <img src="./media/icons/eye.svg" alt="hide icom" aria-hidden="true">
-                    </button>
-
-                    <button class="delete-wrapper" type="button" aria-label="Delete conversation">
-                        <img src="./media/icons/trash.svg" alt="trash bin" aria-hidden="true">
-                    </button>
-                    
-                </footer>
+        
+            <section class="message-wrapper" id="conversationsList" role="list" aria-label="Conversations">
             </section>
-        </section>
+
     </section>
 
 
     <section class="options-section" aria-label="Global actions">
        
-        <button class="add-wrapper" type="button" aria-label="Add contact">
+        <button class="add-wrapper" id="addPersonBtn" type="button" aria-label="Add contact">
             <img src="./media/icons/person-add.svg" alt="add person icon" aria-hidden="true">
         </button>
 
@@ -91,67 +62,42 @@
         </button>
     </section>
    </aside>
+   
 
-   <main class="right-side-area" role="main" aria-labelledby="conversation-heading">
-        <header class="convo-information">
-            
-            <h2 id="conversation-heading" class="visually-hidden">Current conversation</h2>
+    <main class="right-side-area" role="main" aria-labelledby="conversation-heading">
 
-            <div class="hamburger-mobile">
-                <button class="sidebar-toggle" type="button" aria-label="Open conversations list" aria-expanded="false" aria-controls="conversations-panel">
-                    ☰
-                </button>
-            </div>
+    <header class="convo-information" id="convoHeader" hidden>
+        <h2 id="conversation-heading" class="visually-hidden">Current conversation</h2>
 
-            <div class="person-info-wrapper">
-                <img src="./media/icons/person-circle.svg" alt="person image" aria-hidden="true">
-                <section class="person-name">
-                    <h3>Name</h3>
-                </section>
-            </div>
+        <div class="person-info-wrapper">
+        <img src="./media/icons/person-circle.svg" alt="person image" aria-hidden="true" />
+        <section class="person-name">
+            <h3 id="peerName"></h3>
+        </section>
+        </div>
+    </header>
 
-        </header>
+    <section id="conversations-panel" class="visually-hidden" hidden aria-hidden="true"></section>
 
+    <section class="sent-messages-wrapper" id="messagesList"
+            role="region" aria-label="Messages" aria-live="polite" hidden>
+    </section>
 
+    <section class="message-bar-wrapper" id="composer"
+            role="form" aria-label="Message composer" hidden>
+        <button class="document-wrapper" type="button" aria-label="Attach a document">
+        <img src="./media/icons/file-text-fill.svg" alt="upload document" aria-hidden="true" />
+        </button>
 
-
-        
-        <section id="conversations-panel" class="visually-hidden" hidden aria-hidden="true"> </section>
-
-        <section class="sent-messages-wrapper" role="region" aria-label="Messages" aria-live="polite">
-            
-            <section class="message-box incoming" role="group" aria-label="Incoming message at 10:31">
-                
-                <p class="message-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. ac, malesuada lacus. In nec lacinia nulla. Sed congue sapien augue, finibus interdum ante semper eu. Sed a est dapibus, malesuada mi sed, pretium est. Sed nec orci id augue fermentum laoreet id sit amet lorem. Duis eu ante porttitor, mollis libero sit amet, fermentum metus.</p>
-                
-                <span class="message-time" aria-label="Sent at 10:31">10:31</span>
-            </section>
-
-            <section class="message-box outgoing" role="group" aria-label="Your message at 10:32">
-                
-                <p class="message-text">Lorem ipsum dolor sit amet.</p>
-                
-                <span class="message-time" aria-label="Sent at 10:32">10:32</span>
-            
-            </section>
+        <section class="message-input-wrapper">
+        <input id="messageInput" type="text" placeholder="Your message..." aria-label="Type your message" />
         </section>
 
+        <button class="send-wrapper" id="sendBtn" type="button" aria-label="Send message">
+        <img src="./media/icons/send-fill.svg" alt="" aria-hidden="true" />
+        </button>
+    </section>
 
-        <section class="message-bar-wrapper" role="form" aria-label="Message composer">
-
-            <button class="document-wrapper" type="button" aria-label="Attach a document">
-                <img src="./media/icons/file-text-fill.svg" alt="upload document" aria-hidden="true">
-            </button>
-
-            <section class="message-input-wrapper">
-                 <input type="text" placeholder="Your message..." aria-label="Type your message">
-            </section>
-
-            <button class="send-wrapper" type="button" aria-label="Send message">
-                <img src="./media/icons/send-fill.svg" alt="" aria-hidden="true">
-            </button>
-
-        </section>
     </main>
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="./init.js"></script>
