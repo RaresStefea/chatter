@@ -1,10 +1,10 @@
-import { getUserIdFromPrompt, promptForFriendId } from "./actions/auth.js";
+import { getUserIdFromModal, promptForFriendIdModal } from "./actions/auth.js";
 import { createSocket, onDirectMessage } from "./actions/socket.js";
 import { getChatDom } from "./effects/dom.js";
 import { upsertConversationItem, removeConversationItem, clearMessages, appendMessage} from "./effects/render.js";
 
-export function startChatApp() {
-  const { userId } = getUserIdFromPrompt();
+export async function startChatApp() {
+  const { userId } = await getUserIdFromModal();
   const socket = createSocket(userId);
   const dom = getChatDom();
 
@@ -104,16 +104,16 @@ function updateEmptyState() {
   }
 }
 
-  dom.addUserBtn.addEventListener("click", () => {
-    const res = promptForFriendId();
-    if (!res) return;
+  dom.addUserBtn.addEventListener("click", async () => {
+  const res = await promptForFriendIdModal();
+  if (!res) return;
 
-    ensureConversation(res.peerId);
+  ensureConversation(res.peerId);
 
-    socket.emit("connect:request", { peerId: res.peerId }, (ack) => {
-      if (!ack?.ok) console.error("connect:request failed:", ack);
-    });
-  }, { signal });
+  socket.emit("connect:request", { peerId: res.peerId }, (ack) => {
+    if (!ack?.ok) console.error("connect:request failed:", ack);
+  });
+}, { signal });
 
   dom.conversationsList.addEventListener(
   "click",

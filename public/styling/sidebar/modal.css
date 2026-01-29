@@ -1,0 +1,91 @@
+.modal::backdrop {
+  background: rgba(0,0,0,.45);
+}
+
+.modal {
+  border: 0;
+  padding: 0;
+  border-radius: 14px;
+  width: min(92vw, 420px);
+}
+
+.modal-card {
+  padding: 1rem 1rem 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  background: #fff;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.modal-subtitle {
+  margin: 0;
+  opacity: .7;
+  font-size: .95rem;
+}
+
+.modal-label {
+  display: grid;
+  gap: .35rem;
+  font-size: .9rem;
+}
+
+.modal input {
+  padding: .65rem .75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.15);
+  font-size: 1rem;
+  outline: none;
+}
+
+.modal input[type="text"]:focus {
+  border-color: #5aa2ff;
+  box-shadow: 0 0 0 3px rgba(90, 162, 255, 0.15);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: .25rem;
+}
+
+.btn-primary, .btn-secondary {
+  padding: .6rem .8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.12);
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #fff;
+  border-color: black;
+  color: black;
+  transition: all 0.3 ease-in-out;
+}
+
+.btn-primary:hover{
+    background: black;
+    color: #fff;
+    transform: scale(1.05);
+}
+.btn-secondary {
+  background: #fff;
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+body.modal-open .app-shell {
+  filter: blur(40px) brightness(0.6);
+  transform: scale(1.02);
+  pointer-events: none;
+  user-select: none;
+  transition: filter .25s ease, transform .25s ease;
+}
+

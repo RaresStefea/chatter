@@ -1,3 +1,5 @@
 import { startChatApp } from "./scripts/app.js";
 
-startChatApp();
+(async () => {
+  await startChatApp();
+})();

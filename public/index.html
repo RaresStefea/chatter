@@ -12,7 +12,7 @@
 
 <body class="loading">
 
-   <aside class="left-side-area" role="navigation" aria-label="Conversations">
+   <aside class="left-side-area app-shell" role="navigation" aria-label="Conversations">
    
     <header class="app-title" role="banner" aria-labelledby="app-title-text">
         
@@ -113,7 +113,41 @@
         </button>
     </section>
 
-    </main>
+    </main class="app-shell">
+
+        <dialog id="loginDialog" class="modal" aria-labelledby="loginTitle">
+            <form method="dialog" class="modal-card" id="loginForm">
+                <h2 class="modal-title" id="loginTitle">Welcome</h2>
+                <p class="modal-subtitle">Please enter your nickname!</p>
+
+                <label class="modal-label">
+                Nickname:
+                <input id="loginInput" type="text" autocomplete="nickname" required />
+                </label>
+
+                <div class="modal-actions">
+                <button value="ok" class="btn-primary" id="loginOkBtn">Continue</button>
+                </div>
+            </form>
+    </dialog>
+
+
+    <dialog id="addFriendDialog" class="modal">
+    <form method="dialog" class="modal-card" id="addFriendForm">
+        <h2 class="modal-title">Add someone</h2>
+        <p class="modal-subtitle">Your friend's nickname!</p>
+
+        <label class="modal-label">
+        Nickname:
+        <input id="friendInput" type="text" autocomplete="off" />
+        </label>
+
+        <div class="modal-actions">
+        <button value="cancel" class="btn-secondary">Cancel</button>
+        <button value="ok" class="btn-primary" id="friendOkBtn">Add</button>
+        </div>
+    </form>
+    </dialog>
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="./init.js"></script>
 </body>
