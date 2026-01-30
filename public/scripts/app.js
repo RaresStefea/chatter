@@ -33,8 +33,8 @@ export async function startChatApp() {
     dom.appTitle.textContent = userId;
   });
 
-  const conversations = new Map();
-  const connectedPeers = new Set();
+  const conversations = new Map();  
+  const connectedPeers = new Set();  
   let activePeerId = null;
 
   const controller = new AbortController();
