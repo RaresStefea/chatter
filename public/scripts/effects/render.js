@@ -68,17 +68,23 @@ function getPeerSelector(peerId) {
   return `[data-peer-id="${CSS.escape(String(peerId))}"]`;
 }
 
+function createConversationItemNode() {
+  const node = conversationItemPrototype.cloneNode(true);
+
+  node._nameEl = node.querySelector(".name");
+  node._messageEl = node.querySelector(".message");
+
+  return node;
+}
+
 export function upsertConversationItem(conversationsList, convo) {
-  const selector = getPeerSelector(convo.peerId);
-  let item = conversationsList.querySelector(selector);
+  const peerId = String(convo.peerId);
+
+  let item = conversationsList.querySelector(getPeerSelector(peerId));
 
   if (!item) {
-    item = conversationItemPrototype.cloneNode(true);
-    item.dataset.peerId = String(convo.peerId);
-
-    item._nameEl = item.querySelector(".name");
-    item._messageEl = item.querySelector(".message");
-
+    item = createConversationItemNode();
+    item.dataset.peerId = peerId;
     conversationsList.appendChild(item);
   }
 
@@ -86,10 +92,12 @@ export function upsertConversationItem(conversationsList, convo) {
   const messageEl =
     item._messageEl || (item._messageEl = item.querySelector(".message"));
 
-  nameEl.textContent = convo.name || String(convo.peerId);
-  messageEl.textContent = convo.lastMessage || "";
+  nameEl.textContent = (convo.name ?? peerId) || peerId;
+  messageEl.textContent = convo.lastMessage ?? "";
 
-  conversationsList.prepend(item);
+  item.dataset.userName = String(convo.name ?? peerId).trim().toLowerCase();
+
+  return item;
 }
 
 export function removeConversationItem(conversationsList, peerId) {

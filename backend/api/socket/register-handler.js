@@ -20,9 +20,13 @@ function addConnection(a, b) {
 
 function removeConnection(a, b) {
   connections.get(a)?.delete(b);
+  if (connections.get(a)?.size === 0) connections.delete(a);
   connections.get(b)?.delete(a);
+  if (connections.get(b)?.size === 0) connections.delete(b);
   pending.get(a)?.delete(b);
+  if (pending.get(a)?.size === 0) pending.delete(a);
   pending.get(b)?.delete(a);
+  if (pending.get(b)?.size === 0) pending.delete(b);
 }
 
 export function registerSocketHandlers(io) {

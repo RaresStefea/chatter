@@ -1,5 +1,6 @@
 import { getUserIdFromModal, promptForFriendIdModal } from "./actions/auth.js";
 import { createSocket, onDirectMessage } from "./actions/socket.js";
+import { createSearchState, runUserNameSearch } from "./actions/search.js";
 import { getChatDom } from "./effects/dom.js";
 import { upsertConversationItem, removeConversationItem, clearMessages, appendMessage,} from "./effects/render.js";
 
@@ -9,6 +10,7 @@ export async function startChatApp() {
   const dom = getChatDom();
 
   const mqMobile = window.matchMedia("(max-width: 768px)");
+  const searchState = createSearchState();
 
   function setMobileView(view) {
     document.body.classList.toggle("mobile-sidebar", view === "sidebar");
@@ -190,6 +192,9 @@ export async function startChatApp() {
       lastMessage: convo.lastMessage,
     });
 
+    const q = dom.searchInput?.value?.trim() ?? "";
+    if (q) runUserNameSearch(dom.conversationsList, q, searchState);
+
     if (activePeerId === peerId) {
       appendMessage({ list: dom.list, userId }, msg);
     }
@@ -216,6 +221,18 @@ export async function startChatApp() {
       if (e.key === "Enter") sendMessage();
     },
     { signal }
+  );
+
+  dom.searchInput?.addEventListener(
+  "keydown",
+  (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+
+    const q = dom.searchInput.value.trim();
+    runUserNameSearch(dom.conversationsList, q, searchState);
+  },
+  { signal }
   );
 
   function destroy() {

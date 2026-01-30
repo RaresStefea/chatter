@@ -12,6 +12,7 @@ const appTitle = document.querySelector("#app-title-text");
   const peerName = document.querySelector(".person-name h3");
   const composer = document.querySelector(".message-bar-wrapper");
 
+  const searchInput = document.querySelector(".search-bar");
 
   const sidebarToggle = document.querySelector(".sidebar-toggle");
 
@@ -20,5 +21,5 @@ const appTitle = document.querySelector("#app-title-text");
   if (!conversationsList || !addUserBtn) throw new Error("Left panel DOM elements not found.");
   if (!header || !peerName || !composer) throw new Error("Right panel DOM elements not found.");
 
-  return { list, input, sendBtn, conversationsList, addUserBtn, header, peerName, composer, appTitle, sidebarToggle };
+  return { list, input, sendBtn, conversationsList, addUserBtn, header, peerName, composer, appTitle, sidebarToggle, searchInput };
 }
