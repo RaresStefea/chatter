@@ -1,7 +1,7 @@
 import { getUserIdFromModal, promptForFriendIdModal } from "./actions/auth.js";
 import { createSocket, onDirectMessage } from "./actions/socket.js";
 import { getChatDom } from "./effects/dom.js";
-import { upsertConversationItem, removeConversationItem, clearMessages, appendMessage} from "./effects/render.js";
+import { upsertConversationItem, removeConversationItem, clearMessages, appendMessage,} from "./effects/render.js";
 
 export async function startChatApp() {
   const { userId } = await getUserIdFromModal();
@@ -26,15 +26,15 @@ export async function startChatApp() {
   dom.header.hidden = true;
   dom.list.hidden = true;
   dom.composer.hidden = true;
-  dom.list.innerHTML = "";
 
-   socket.once("connect", () => {
+  clearMessages(dom.list);
+
+  socket.once("connect", () => {
     dom.appTitle.textContent = userId;
   });
 
-
-  const conversations = new Map();  
-  const connectedPeers = new Set();  
+  const conversations = new Map();
+  const connectedPeers = new Set();
   let activePeerId = null;
 
   const controller = new AbortController();
@@ -53,9 +53,29 @@ export async function startChatApp() {
 
   function ensureConversation(peerId) {
     if (!conversations.has(peerId)) {
-      conversations.set(peerId, { peerId, name: peerId, messages: [], lastMessage: "" });
+      conversations.set(peerId, {
+        peerId,
+        name: peerId,
+        messages: [],
+        lastMessage: "",
+      });
     }
     return conversations.get(peerId);
+  }
+
+  function updateEmptyState() {
+    const hasItems = dom.conversationsList.querySelector("[data-peer-id]") !== null;
+    const hasActive = !!activePeerId;
+
+    const shouldShowEmpty = !hasItems || !hasActive;
+
+    document.body.classList.toggle("loading", shouldShowEmpty);
+
+    if (shouldShowEmpty) {
+      dom.header.hidden = true;
+      dom.list.hidden = true;
+      dom.composer.hidden = true;
+    }
   }
 
   function hideRightSide() {
@@ -64,81 +84,72 @@ export async function startChatApp() {
     dom.header.hidden = true;
     dom.list.hidden = true;
     dom.composer.hidden = true;
+
     clearMessages(dom.list);
+
     if (mqMobile.matches) setMobileView("sidebar");
-     updateEmptyState();
+    updateEmptyState();
   }
 
   function openConversation(peerId) {
-  activePeerId = peerId;
+    activePeerId = peerId;
 
-  const convo = ensureConversation(peerId);
+    const convo = ensureConversation(peerId);
 
-  updateEmptyState();
+    updateEmptyState();
 
-  dom.peerName.textContent = convo.name || peerId;
-  dom.header.hidden = false;
-  dom.list.hidden = false;
-  dom.composer.hidden = false;
+    dom.peerName.textContent = convo.name || peerId;
+    dom.header.hidden = false;
+    dom.list.hidden = false;
+    dom.composer.hidden = false;
 
-  clearMessages(dom.list);
-  convo.messages.forEach((m) => appendMessage({ list: dom.list, userId }, m));
-  
-  if (mqMobile.matches) setMobileView("chat");
+    clearMessages(dom.list);
+    convo.messages.forEach((m) => appendMessage({ list: dom.list, userId }, m));
 
-  updateEmptyState();
-}
+    if (mqMobile.matches) setMobileView("chat");
 
-function updateEmptyState() {
-  const hasItems = dom.conversationsList.querySelector("[data-peer-id]") !== null;
-  const hasActive = !!activePeerId;
-
-  const shouldShowEmpty = !hasItems || !hasActive;
-
-  document.body.classList.toggle("loading", shouldShowEmpty);
-
-  if (shouldShowEmpty) {
-    dom.header.hidden = true;
-    dom.list.hidden = true;
-    dom.composer.hidden = true;
+    updateEmptyState();
   }
-}
 
-  dom.addUserBtn.addEventListener("click", async () => {
-  const res = await promptForFriendIdModal();
-  if (!res) return;
+  dom.addUserBtn.addEventListener(
+    "click",
+    async () => {
+      const res = await promptForFriendIdModal();
+      if (!res) return;
 
-  ensureConversation(res.peerId);
+      ensureConversation(res.peerId);
 
-  socket.emit("connect:request", { peerId: res.peerId }, (ack) => {
-    if (!ack?.ok) console.error("connect:request failed:", ack);
-  });
-}, { signal });
+      socket.emit("connect:request", { peerId: res.peerId }, (ack) => {
+        if (!ack?.ok) console.error("connect:request failed:", ack);
+      });
+    },
+    { signal }
+  );
 
   dom.conversationsList.addEventListener(
-  "click",
-  (e) => {
-    const btn = e.target.closest("button");
-    if (!btn) return;
+    "click",
+    (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
 
-    const item = btn.closest(".message-item");
-    const peerId = item?.dataset.peerId;
-    if (!peerId) return;
+      const item = btn.closest(".message-item");
+      const peerId = item?.dataset.peerId;
+      if (!peerId) return;
 
-    if (btn.classList.contains("hide-wrapper")) {
-      connectedPeers.add(peerId);
-      openConversation(peerId);
-      return;
-    }
+      if (btn.classList.contains("hide-wrapper")) {
+        connectedPeers.add(peerId);
+        openConversation(peerId);
+        return;
+      }
 
-    if (btn.classList.contains("delete-wrapper")) {
-      socket.emit("connect:delete", { peerId }, (ack) => {
-        if (!ack?.ok) console.error("connect:delete failed:", ack);
-      });
-    }
-  },
-  { signal }
-);
+      if (btn.classList.contains("delete-wrapper")) {
+        socket.emit("connect:delete", { peerId }, (ack) => {
+          if (!ack?.ok) console.error("connect:delete failed:", ack);
+        });
+      }
+    },
+    { signal }
+  );
 
   const onConfirmed = ({ peerId }) => {
     connectedPeers.add(peerId);
@@ -147,8 +158,9 @@ function updateEmptyState() {
     upsertConversationItem(dom.conversationsList, {
       peerId: convo.peerId,
       name: convo.name,
-      lastMessage: convo.lastMessage
+      lastMessage: convo.lastMessage,
     });
+
     updateEmptyState();
   };
 
@@ -158,7 +170,7 @@ function updateEmptyState() {
     removeConversationItem(dom.conversationsList, peerId);
 
     if (activePeerId === peerId) hideRightSide();
-     updateEmptyState()
+    updateEmptyState();
   };
 
   socket.on("connect:confirmed", onConfirmed);
@@ -175,7 +187,7 @@ function updateEmptyState() {
     upsertConversationItem(dom.conversationsList, {
       peerId: convo.peerId,
       name: convo.name,
-      lastMessage: convo.lastMessage
+      lastMessage: convo.lastMessage,
     });
 
     if (activePeerId === peerId) {
@@ -198,17 +210,20 @@ function updateEmptyState() {
   }
 
   dom.sendBtn.addEventListener("click", sendMessage, { signal });
-  dom.input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  }, { signal });
+  dom.input.addEventListener(
+    "keydown",
+    (e) => {
+      if (e.key === "Enter") sendMessage();
+    },
+    { signal }
+  );
 
   function destroy() {
-    controller.abort();              
+    controller.abort();
     socket.off("connect:confirmed", onConfirmed);
     socket.off("connect:deleted", onDeleted);
-    socket.off("dm:receive", onMsg); 
+    socket.off("dm:receive", onMsg);
   }
 
   return { destroy };
 }
-
