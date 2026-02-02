@@ -4,8 +4,16 @@
 
 ### PC Browser
 
+![Full App View](./misc/images/Full-app-desktop-view.png)
+![Login view](./misc/images/Login-desktop.png)
+
+
 ### Mobile Browser
 
+![Add someone mobile](./misc/images/Add-someone-mobile.png)
+![Login Mobile](./misc/images/Login-mobile.png)
+![Sidebar Mobile](./misc/images/Sidebar-mobile.png)
+![Messages Mobile](./misc/images/Messages-mobile.png)
 
 ## Functionality
 
