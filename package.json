@@ -1,0 +1,24 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "UI + backend for Chatter",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon backend/init.js",
+    "start": "node backend/init.js",
+    "test:initial": "node --test backend/tests/initial.socket.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

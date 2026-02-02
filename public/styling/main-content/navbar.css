@@ -64,4 +64,14 @@
     padding: .6rem .75rem;
   }
 
+
+ body.mobile-sidebar .hamburger-mobile {
+    display: none;
+  }
+
+  body.mobile-chat .hamburger-mobile {
+    display: inline-flex;
+    align-items: center;
+  }
+
 }

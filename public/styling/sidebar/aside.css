@@ -25,7 +25,27 @@
 }
 
 @media (max-width: 768px) {
-  .left-side-area {
+  .left-side-area,
+  .right-side-area {
+    max-width: 100%;
+    flex: 1 1 100%;
+    min-height: 100vh;
+  }
+
+  body.mobile-sidebar .left-side-area {
+    display: flex;
+  }
+
+  body.mobile-sidebar .right-side-area {
     display: none;
   }
+
+  body.mobile-chat .left-side-area {
+    display: none;
+  }
+
+  body.mobile-chat .right-side-area {
+    display: flex;
+  }
 }
+

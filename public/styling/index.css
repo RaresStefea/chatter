@@ -9,6 +9,7 @@
 @import url(./sidebar/searchbar.css);
 @import url(./sidebar/message.css);
 @import url(./sidebar/options.css);
+@import url(./sidebar/modal.css);
 
 /* Main Layout */
 @import url(./main-content/main.css);

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Free Chatting Application">
+    <meta name="keywords" content="Chatting, Messages">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./media/icons/chatter-logo.svg" sizes="any" type="image/svg+xml">
+    <link rel="stylesheet" href="./styling/index.css">
+    <title>Chatter</title>
+</head>
+
+<body class="loading">
+
+   <aside class="left-side-area app-shell" role="navigation" aria-label="Conversations">
+   
+    <header class="app-title" role="banner" aria-labelledby="app-title-text">
+        
+        <img class="app-logo" src="./media/icons/chatter-logo.svg" alt="logo" aria-hidden="true" />
+        
+        <h1 id="app-title-text">CHATTER</h1>
+    
+    </header>
+
+
+
+    <section class="search-section" aria-labelledby="search-heading">
+        
+        <h2 id="search-heading" class="visually-hidden">Search conversations</h2>
+
+        <section class="search-bar-wrapper">
+            
+            <input type="text" class="search-bar" placeholder="Search..." aria-label="Search conversations" autocomplete="off">
+        </section>
+
+        <button class="filter-button-wrapper" type="button" aria-label="Filter conversations">
+          <img src="./media/icons/filter-circle.svg" alt="filter" aria-hidden="true">
+        </button>
+
+    </section>
+
+    <section class="messages-section" role="region" aria-labelledby="conversations-heading">
+        
+        <h2 id="conversations-heading" class="visually-hidden">Conversations list</h2>
+
+        
+            <section class="message-wrapper" id="conversationsList" role="list" aria-label="Conversations">
+            </section>
+
+    </section>
+
+
+    <section class="options-section" aria-label="Global actions">
+       
+        <button class="add-wrapper" id="addPersonBtn" type="button" aria-label="Add contact">
+            <img src="./media/icons/person-add.svg" alt="add person icon" aria-hidden="true">
+        </button>
+
+        <button class="settings-wrapper" type="button" aria-label="Open settings">
+            <img src="./media/icons/gear-fill.svg" alt="gears" aria-hidden="true">
+       
+        </button>
+    </section>
+   </aside>
+   
+
+    <main class="right-side-area app-shell" role="main" aria-labelledby="conversation-heading">
+
+    <header class="convo-information" id="convoHeader" hidden>
+        <h2 id="conversation-heading" class="visually-hidden">Current conversation</h2>
+
+        <div class="person-info-wrapper">
+
+            <div class="hamburger-mobile">
+            <button
+                class="sidebar-toggle"
+                type="button"
+                aria-label="Open conversations"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+            </div>
+
+            <img src="./media/icons/person-circle.svg" alt="person image" aria-hidden="true" />
+
+            <section class="person-name">
+            <h3 id="peerName"></h3>
+            </section>
+
+        </div>
+        </header>
+
+    <section id="conversations-panel" class="visually-hidden" hidden aria-hidden="true"></section>
+
+    <section class="sent-messages-wrapper" id="messagesList"
+            role="region" aria-label="Messages" aria-live="polite" hidden>
+    </section>
+
+    <section class="message-bar-wrapper" id="composer"
+            role="form" aria-label="Message composer" hidden>
+        <button class="document-wrapper" type="button" aria-label="Attach a document">
+        <img src="./media/icons/file-text-fill.svg" alt="upload document" aria-hidden="true" />
+        </button>
+
+        <section class="message-input-wrapper">
+        <input id="messageInput" type="text" placeholder="Your message..." aria-label="Type your message" />
+        </section>
+
+        <button class="send-wrapper" id="sendBtn" type="button" aria-label="Send message">
+        <img src="./media/icons/send-fill.svg" alt="" aria-hidden="true" />
+        </button>
+    </section>
+
+    </main class="app-shell">
+
+        <dialog id="loginDialog" class="modal" aria-labelledby="loginTitle">
+            <form method="dialog" class="modal-card" id="loginForm">
+                <h2 class="modal-title" id="loginTitle">Welcome</h2>
+                <p class="modal-subtitle">Please enter your nickname!</p>
+
+                <label class="modal-label">
+                Nickname:
+                <input id="loginInput" type="text" autocomplete="nickname" required />
+                </label>
+
+                <div class="modal-actions">
+                <button value="ok" class="btn-primary" id="loginOkBtn">Continue</button>
+                </div>
+            </form>
+    </dialog>
+
+
+    <dialog id="addFriendDialog" class="modal">
+    <form method="dialog" class="modal-card" id="addFriendForm">
+        <h2 class="modal-title">Add someone</h2>
+        <p class="modal-subtitle">Your friend's nickname!</p>
+
+        <label class="modal-label">
+        Nickname:
+        <input id="friendInput" type="text" autocomplete="off" />
+        </label>
+
+        <div class="modal-actions">
+        <button value="cancel" class="btn-secondary">Cancel</button>
+        <button value="ok" class="btn-primary" id="friendOkBtn">Add</button>
+        </div>
+    </form>
+    </dialog>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="./init.js"></script>
+</body>
+</html>
